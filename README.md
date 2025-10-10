@@ -52,7 +52,5 @@ uv venv
 uv pip install -r requirements.txt
 
 # Run benchmarks
-
-# See visualizations
-
+uv run -m app.test
 ```
