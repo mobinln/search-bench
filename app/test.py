@@ -9,9 +9,9 @@ from app.data_generator import generate_data
 
 
 async def run():
-    # sq = SqliteSearchEngine()
+    sq = SqliteSearchEngine()
     # sq = PostgresFtsSearchEngine()
-    sq = PostgresTrgmSearchEngine()
+    # sq = PostgresTrgmSearchEngine()
 
     data = generate_data(10 * 1000)
 

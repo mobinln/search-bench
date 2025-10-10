@@ -22,18 +22,19 @@ relevance, features, and operational complexity.
 
 - **Fastest**: TBD
 - **Best relevance**: TBD
-- **Easiest setup**: TBD
-- **Lowest resource usage**: TBD
+- **Easiest setup**: Sqlite FTS5
+- **Lowest resource usage**: Sqlite FTS5
+- **Best for <10k docs**: TBD
 - **Best for <100k docs**: TBD
 - **Best for >1M docs**: TBD
 
 _Speed column is calculated on a 10k dataset_
 
-| Engine        | Speed   | Typo Tolerance |
-| ------------- | ------- | -------------- |
-| Sqlite FTS5   | ~1.8 ms | No             |
-| Postgres FTS  | ~5 ms   | No             |
-| Postgres TRGM | ~180 ms | Yes            |
+| Engine        | Speed   | Typo Tolerance | Ease of setup and use                                                                  |
+| ------------- | ------- | -------------- | -------------------------------------------------------------------------------------- |
+| Sqlite FTS5   | ~1.8 ms | No             | 5/5 (You only create a VIRTUAL table and it indexes all columns, much like a nosql db) |
+| Postgres FTS  | ~5 ms   | No             | 3/5 (You need to handle specific vector columns and indexes for performance)           |
+| Postgres TRGM | ~180 ms | Yes            | 4/5 (You just generate indexes on the columns you need)                                |
 
 [Include charts here]
 
