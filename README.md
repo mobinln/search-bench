@@ -27,6 +27,14 @@ relevance, features, and operational complexity.
 - **Best for <100k docs**: TBD
 - **Best for >1M docs**: TBD
 
+_Speed column is calculated on a 10k dataset_
+
+| Engine        | Speed   | Typo Tolerance |
+| ------------- | ------- | -------------- |
+| Sqlite FTS5   | ~1.8 ms | No             |
+| Postgres FTS  | ~5 ms   | No             |
+| Postgres TRGM | ~180 ms | Yes            |
+
 [Include charts here]
 
 ## 🚀 Quick Start
