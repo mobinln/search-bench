@@ -15,7 +15,7 @@ relevance, features, and operational complexity.
 - PostgreSQL Full-Text Search
 - PostgreSQL with pg_trgm (trigrams)
 - Redis with RediSearch
-- Elasticsearch
+- Apache Solr
 - Meilisearch
 
 ## 📊 Key Findings
@@ -35,12 +35,15 @@ relevance, features, and operational complexity.
 # Start all search systems
 docker-compose up -d
 
-# Generate test data
-python data/generate.py
+# Or just start subset of search systems
+docker-compose up -d redis postgres
+
+# Setup environment
+uv venv
+uv pip install -r requirements.txt
 
 # Run benchmarks
-bun run benchmarks/latency.ts
 
-# Start demo
-cd web && bun run dev
+# See visualizations
+
 ```
