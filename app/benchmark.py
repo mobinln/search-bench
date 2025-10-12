@@ -2,22 +2,15 @@ import time
 import asyncio
 import json
 import math
+from typing import List
 
+from app.integrations.search_engine import SearchEngine
+from app.data_generator import generate_data, queries
 
-# Placeholder async search functions - define these as needed
-async def postgres_search(query: str):
-    pass  # Implement PostgreSQL FTS search
-
-
-async def redis_search(query: str):
-    pass  # Implement Redis search
-
-
-async def elasticsearch_search(query: str):
-    pass  # Implement Elasticsearch search
-
-
-# BenchmarkResult would be a dict in Python
+from app.integrations.sqlite_engine import SqliteSearchEngine
+from app.integrations.postgres_fts_engine import PostgresFtsSearchEngine
+from app.integrations.postgres_trgm_engine import PostgresTrgmSearchEngine
+from app.integrations.redis_engine import RedisSearchEngine
 
 
 async def benchmark_query(search_fn, query: str, iterations: int = 1000) -> list[float]:
@@ -45,35 +38,32 @@ def calculate_percentile(sorted_latencies: list[float], percentile: float) -> fl
 
 # Run against all systems
 async def run_benchmarks():
-    systems = [
-        {"name": "PostgreSQL FTS", "search": postgres_search},
-        {"name": "Redis", "search": redis_search},
-        {"name": "Elasticsearch", "search": elasticsearch_search},
-        # ... more systems
+    systems: List[SearchEngine] = [
+        SqliteSearchEngine,
+        # PostgresFtsSearchEngine,
+        # PostgresTrgmSearchEngine,
+        RedisSearchEngine,
     ]
 
-    queries = [
-        "laptop",
-        "wireless gaming mouse",
-        "laptp",  # typo
-        # ... more queries
-    ]
+    data = generate_data(10 * 1000)
 
     results = []
 
     for system in systems:
+        engine = system()
+        engine.ingest_data(data)
+
         for query in queries:
-            print(f"Benchmarking {system['name']} with query: {query}")
-            latencies = await benchmark_query(system["search"], query)
+            print(f"Benchmarking {type(engine).__name__} with query: {query}")
+            latencies = await benchmark_query(engine.search, query)
 
             avg_latency = sum(latencies) / len(latencies) if latencies else 0
             throughput = 1000 / avg_latency if avg_latency > 0 else 0
 
             results.append(
                 {
-                    "system": system["name"],
+                    "system": type(engine).__name__,
                     "query": query,
-                    "latencies": latencies,
                     "p50": calculate_percentile(latencies, 50),
                     "p95": calculate_percentile(latencies, 95),
                     "p99": calculate_percentile(latencies, 99),
@@ -81,8 +71,10 @@ async def run_benchmarks():
                 }
             )
 
+        engine.close()
+
     # Save results
-    with open("results/latency.json", "w") as f:
+    with open("./latency.json", "w") as f:
         json.dump(results, f, indent=2)
 
 

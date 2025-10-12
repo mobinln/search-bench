@@ -89,7 +89,7 @@ class PostgresFtsSearchEngine(SearchEngine):
             FROM products
             WHERE search_vector @@ to_tsquery('english', %s)
         """,
-            [query],
+            [" & ".join(query.split())],
         )
 
         return self.cursor.fetchall()

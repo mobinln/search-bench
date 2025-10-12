@@ -49,7 +49,8 @@ class SqliteSearchEngine(SearchEngine):
     async def search(self, query: str) -> Any:
         """Search the index asynchronously."""
         self.cursor.execute(
-            "SELECT id, name, description FROM products WHERE products MATCH ?", [query]
+            "SELECT id, name, description FROM products WHERE products MATCH ?",
+            [f'"{query.replace("\"", "\"\"")}"'],
         )
         return self.cursor.fetchall()
 

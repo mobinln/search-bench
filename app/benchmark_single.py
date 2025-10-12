@@ -5,26 +5,31 @@ import plotly.express as px
 from app.integrations.sqlite_engine import SqliteSearchEngine
 from app.integrations.postgres_fts_engine import PostgresFtsSearchEngine
 from app.integrations.postgres_trgm_engine import PostgresTrgmSearchEngine
-from app.data_generator import generate_data
+from app.integrations.redis_engine import RedisSearchEngine
+from app.data_generator import generate_data, generate_query
 
 
 async def run():
-    sq = SqliteSearchEngine()
-    # sq = PostgresFtsSearchEngine()
-    # sq = PostgresTrgmSearchEngine()
+    # engine = SqliteSearchEngine()
+    # engine = PostgresFtsSearchEngine()
+    # engine = PostgresTrgmSearchEngine()
+    engine = RedisSearchEngine()
 
-    data = generate_data(10 * 1000)
+    data = generate_data(500 * 1000)
 
-    sq.ingest_data(data)
+    engine.ingest_data(data)
 
     latencies = []
-    for i in range(20):
+    for i in range(100):
+        query = generate_query()
+
         start = time.time()
-        result = await sq.search("Nike")
+        result = await engine.search(query)
         end = time.time()
         latency = (end - start) * 1000
         latencies.append(latency)
 
+    engine.close()
     print(f"Found {len(result)} results")
     print(f"Took {latencies[-1]:.4f} ms")
 

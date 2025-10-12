@@ -75,6 +75,7 @@ class PostgresTrgmSearchEngine(SearchEngine):
         self.db.commit()
 
     async def search(self, query):
+        query = " & ".join(query.split())
         self.cursor.execute("SET pg_trgm.similarity_threshold = 0.3")
 
         self.cursor.execute(

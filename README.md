@@ -9,14 +9,18 @@ When building an application that needs search, which system should you use?
 This project benchmarks and compares multiple different approaches across latency,
 relevance, features, and operational complexity.
 
+## Methodology
+
+We have a `data_generator.py` script which generate multiple sample data for us and also in this file we have a list of sample queries which we use to benchmark our engines, We have a `search_engine.py` file which includes our abstraction around `SearchEngine` to unify our integrations with different engines so we don't need to change our benchmark or data, We just replace the engine and everything works and also our implementations are clean and readable, Our benchmark is mostly async single thread because we want to test how different approaches react in a single-machine, Also the benchmark below ran on a Macbook M1 Pro machine
+
 ## 🔍 Systems Compared
 
 - SQLite FTS5
 - PostgreSQL Full-Text Search
 - PostgreSQL with pg_trgm (trigrams)
-- Redis with RediSearch
-- Apache Solr
+- Redis with Redis Search
 - Meilisearch
+- Apache Solr
 
 ## 📊 Key Findings
 
@@ -24,19 +28,16 @@ relevance, features, and operational complexity.
 - **Best relevance**: TBD
 - **Easiest setup**: Sqlite FTS5
 - **Lowest resource usage**: Sqlite FTS5
-- **Best for <10k docs**: TBD
-- **Best for <100k docs**: TBD
+- **Best for <10k docs**: Redis Search
+- **Best for <100k docs**: Redis Search
 - **Best for >1M docs**: TBD
 
-_Speed column is calculated on a 10k dataset_
-
-| Engine        | Speed   | Typo Tolerance | Ease of setup and use                                                                  |
-| ------------- | ------- | -------------- | -------------------------------------------------------------------------------------- |
-| Sqlite FTS5   | ~1.8 ms | No             | 5/5 (You only create a VIRTUAL table and it indexes all columns, much like a nosql db) |
-| Postgres FTS  | ~5 ms   | No             | 3/5 (You need to handle specific vector columns and indexes for performance)           |
-| Postgres TRGM | ~180 ms | Yes            | 4/5 (You just generate indexes on the columns you need)                                |
-
-[Include charts here]
+| Engine        | Speed (10k) | RAM (100k) | Typo Tolerance | Ease of setup and use                                                        |
+| ------------- | ----------- | ---------- | -------------- | ---------------------------------------------------------------------------- |
+| Sqlite FTS5   | ~1.8 ms     | ~150 MB    | No             | 4/5 (You should create a VIRTUAL table)                                      |
+| Postgres FTS  | ~5 ms       | ~180 MB    | No             | 3/5 (You need to handle specific vector columns and indexes for performance) |
+| Postgres TRGM | ~180 ms     | ~200 MB    | Yes            | 4/5 (You just generate indexes on the columns you need)                      |
+| Redis Search  | ~0.4 ms     | ~180 MB    | Yes            | 4/5 (You need to generate index manually and update it based on your data)   |
 
 ## 🚀 Quick Start
 
@@ -52,5 +53,8 @@ uv venv
 uv pip install -r requirements.txt
 
 # Run benchmarks
-uv run -m app.test
+uv run -m app.benchmark
+
+# Run single benchmark
+uv run -m app.benchmark_single
 ```
