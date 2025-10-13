@@ -21,6 +21,8 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 - Redis with Redis Search
 - Meilisearch
 - Apache Solr
+- Typesense
+- SurrealDB
 
 ## 📊 Key Findings
 
@@ -32,12 +34,12 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 - **Best for <100k docs**: Redis Search
 - **Best for >1M docs**: TBD
 
-| Engine        | Speed (10k) | RAM (100k) | Typo Tolerance | Ease of setup and use                                                        |
-| ------------- | ----------- | ---------- | -------------- | ---------------------------------------------------------------------------- |
-| Sqlite FTS5   | ~1.8 ms     | ~150 MB    | No             | 4/5 (You should create a VIRTUAL table)                                      |
-| Postgres FTS  | ~5 ms       | ~180 MB    | No             | 3/5 (You need to handle specific vector columns and indexes for performance) |
-| Postgres TRGM | ~180 ms     | ~200 MB    | Yes            | 4/5 (You just generate indexes on the columns you need)                      |
-| Redis Search  | ~0.4 ms     | ~180 MB    | Yes            | 4/5 (You need to generate index manually and update it based on your data)   |
+| Engine        | Latency (10k) | Latency (100k) | RAM (100k) | Typo Tolerance | Ease of setup and use                                                        | Features |
+| ------------- | ------------- | -------------- | ---------- | -------------- | ---------------------------------------------------------------------------- | -------- |
+| Sqlite FTS5   | ~1.8 ms       |                | ~150 MB    | No             | 4/5 (You should create a VIRTUAL table)                                      |          |
+| Postgres FTS  | ~5 ms         |                | ~180 MB    | No             | 3/5 (You need to handle specific vector columns and indexes for performance) |          |
+| Postgres TRGM | ~180 ms       |                | ~200 MB    | Yes            | 4/5 (You just generate indexes on the columns you need)                      |          |
+| Redis Search  | ~0.4 ms       |                | ~180 MB    | Yes            | 4/5 (You need to generate index manually and update it based on your data)   |          |
 
 ## 🚀 Quick Start
 

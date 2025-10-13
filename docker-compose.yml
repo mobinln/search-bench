@@ -61,8 +61,38 @@ services:
       retries: 5
     restart: unless-stopped
 
+  typesense:
+    image: typesense/typesense:29.0
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    volumes:
+      - typesense-data:/data
+    command: "--data-dir /data --api-key=xyz --enable-cors"
+
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    command:
+      - start
+      - --auth
+      - --user
+      - root
+      - --pass
+      - root
+      - file:/data/dev.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - surrealdb-data:/data
+    environment:
+      - SURREALDB_ENV_USER=root
+      - SURREALDB_ENV_PASS=root
+    restart: unless-stopped
+
 volumes:
   redis-data:
   pg-data:
   solr-data:
   meili-data:
+  typesense-data:
+  surrealdb-data:
