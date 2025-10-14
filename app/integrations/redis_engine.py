@@ -48,5 +48,5 @@ class RedisSearchEngine(SearchEngine):
     async def search(self, query):
         return self.redis.ft("idx:products").search(Query(query)).docs
 
-    def close(self):
+    async def close(self):
         self.redis.close()

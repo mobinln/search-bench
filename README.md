@@ -26,24 +26,24 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 
 ## 📊 Key Findings
 
-- **Fastest**: TBD
-- **Best relevance**: TBD
-- **Easiest setup**: Sqlite FTS5
+- **Fastest**: Redis Search (By far !!)
+- **Best relevance**: Redis Search or Meilisearch or Sqlite FTS5
+- **Easiest setup**: Meilisearch
 - **Lowest resource usage**: Sqlite FTS5
 - **Best for <10k docs**: Redis Search
 - **Best for <100k docs**: Redis Search
 - **Best for >1M docs**: TBD
 
-| Engine        | Latency (10k) | Latency (100k) | RAM (100k) | Typo Tolerance | Ease of setup and use                                                                                                                      |
-| ------------- | ------------- | -------------- | ---------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Sqlite FTS5   | ~1.8 ms       | ~0.8 ms        | ~150 MB    | No             | 4/5 (You should create a VIRTUAL table)                                                                                                    |
-| Postgres FTS  | ~5 ms         | ~2.7 ms        | ~180 MB    | No             | 3/5 (You need to handle specific vector columns and indexes for performance)                                                               |
-| Postgres TRGM | ~180 ms       | ~ 900 ms       | ~200 MB    | Yes            | 4/5 (You just generate indexes on the columns you need)                                                                                    |
-| Redis Search  | ~0.4 ms       | ~ 0.45 ms      | ~180 MB    | Yes            | 4/5 (You need to generate index manually and update it based on your data)                                                                 |
-| Meilisearch   | ~4.8 ms       | ~4 ms          | ~300 MB    | Yes            | 5/5 (To start you don't even have to create index, It generates it by first add_document :D)                                               |
-| Apache Solr   | ~3 ms         | ~3.5 ms        | ~800 MB    | Yes            | 4/5 (Still easy but for real usage you might need zookeeper)                                                                               |
-| Typesense     | ~4 ms         | ~4 ms          | ~280 MB    | Yes            | 4/5 (You just generate indexes on the columns you need)                                                                                    |
-| SurrealDB     | ~25 ms        | ~25 ms         | ~700 MB    | Yes            | 3/5 (You need to write queries by hand much like postgres but some queries changed over time and you might need to read docs a little bit) |
+| Engine        | Latency (10k) | Latency (100k) | RAM (100k) | Latency (1M) | Ease of setup and use                                                                                                                      |
+| ------------- | ------------- | -------------- | ---------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Sqlite FTS5   | ~1.8 ms       | ~0.8 ms        | ~150 MB    | ~5.5 ms      | 4/5 (You should create a VIRTUAL table)                                                                                                    |
+| Postgres FTS  | ~5 ms         | ~2.7 ms        | ~180 MB    | ~27 ms       | 3/5 (You need to handle specific vector columns and indexes for performance)                                                               |
+| Postgres TRGM | ~180 ms       | ~ 900 ms       | ~200 MB    | ~6000 ms     | 4/5 (You just generate indexes on the columns you need)                                                                                    |
+| Redis Search  | ~0.4 ms       | ~ 0.45 ms      | ~180 MB    | ~1.3 ms      | 4/5 (You need to generate index manually and update it based on your data)                                                                 |
+| Meilisearch   | ~4.8 ms       | ~4 ms          | ~300 MB    | ~12.5 ms     | 5/5 (To start you don't even have to create index, It generates it by first add_document :D)                                               |
+| Apache Solr   | ~3 ms         | ~3.5 ms        | ~800 MB    |              | 4/5 (Still easy but for real usage you might need zookeeper)                                                                               |
+| Typesense     | ~4 ms         | ~4 ms          | ~280 MB    |              | 4/5 (You just generate indexes on the columns you need)                                                                                    |
+| SurrealDB     | ~25 ms        | ~25 ms         | ~700 MB    |              | 3/5 (You need to write queries by hand much like postgres but some queries changed over time and you might need to read docs a little bit) |
 
 ## 🚀 Quick Start
 

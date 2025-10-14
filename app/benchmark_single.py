@@ -18,14 +18,21 @@ async def run():
     # engine = PostgresFtsSearchEngine()
     # engine = PostgresTrgmSearchEngine()
     # engine = RedisSearchEngine()
-    # engine = MeilisearchEngine()
+    engine = MeilisearchEngine()
     # engine = SolrEngine()
     # engine = TypesenseEngine()
-    engine = SurrealdbEngine()
+    # engine = SurrealdbEngine()
 
-    data = generate_data(100 * 1000)
+    data = generate_data(1 * 1000 * 1000)
+    print("data generated")
 
-    engine.ingest_data(data)
+    batch_size = 50 * 1000
+
+    for i in range(0, len(data), batch_size):
+        batch = data[i : i + batch_size]
+        engine.ingest_data(batch)
+
+    print("data ingested")
 
     latencies = []
     for i in range(100):

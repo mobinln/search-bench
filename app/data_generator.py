@@ -1,4 +1,6 @@
 import random
+import json
+import os
 from faker import Faker
 
 from app.integrations.search_engine import Product
@@ -89,4 +91,18 @@ def generate_product():
 
 
 def generate_data(count=100):
-    return [generate_product() for _ in range(count)]
+    filename = f"{count}.json"
+
+    # If the file exists, load and return its data
+    if os.path.exists(filename):
+        with open(filename, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    # Otherwise, generate the data
+    data = [generate_product() for _ in range(count)]
+
+    # Save the generated data to a file
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+    return data
