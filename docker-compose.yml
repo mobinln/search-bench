@@ -74,12 +74,10 @@ services:
     image: surrealdb/surrealdb:latest
     command:
       - start
-      - --auth
       - --user
       - root
       - --pass
       - root
-      - file:/data/dev.db
     ports:
       - "8000:8000"
     volumes:

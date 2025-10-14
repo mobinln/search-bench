@@ -5,3 +5,5 @@ pandas
 plotly[express]
 meilisearch
 pysolr
+typesense
+surrealdb

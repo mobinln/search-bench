@@ -8,6 +8,8 @@ from app.integrations.postgres_trgm_engine import PostgresTrgmSearchEngine
 from app.integrations.redis_engine import RedisSearchEngine
 from app.integrations.meilisearch_engine import MeilisearchEngine
 from app.integrations.solr_engine import SolrEngine
+from app.integrations.typesense_engine import TypesenseEngine
+from app.integrations.surrealdb_engine import SurrealdbEngine
 from app.data_generator import generate_data, generate_query
 
 
@@ -17,7 +19,9 @@ async def run():
     # engine = PostgresTrgmSearchEngine()
     # engine = RedisSearchEngine()
     # engine = MeilisearchEngine()
-    engine = SolrEngine()
+    # engine = SolrEngine()
+    # engine = TypesenseEngine()
+    engine = SurrealdbEngine()
 
     data = generate_data(100 * 1000)
 
@@ -33,7 +37,7 @@ async def run():
         latency = (end - start) * 1000
         latencies.append(latency)
 
-    engine.close()
+    await engine.close()
     print(f"Found {len(result)} results")
     print(f"Took {latencies[-1]:.4f} ms")
 
