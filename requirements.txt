@@ -7,3 +7,4 @@ meilisearch
 pysolr
 typesense
 surrealdb
+duckdb

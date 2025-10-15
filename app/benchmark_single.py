@@ -10,6 +10,7 @@ from app.integrations.meilisearch_engine import MeilisearchEngine
 from app.integrations.solr_engine import SolrEngine
 from app.integrations.typesense_engine import TypesenseEngine
 from app.integrations.surrealdb_engine import SurrealdbEngine
+from app.integrations.duckdb_engine import DuckdbEngine
 from app.data_generator import generate_data, generate_query
 
 
@@ -18,15 +19,16 @@ async def run():
     # engine = PostgresFtsSearchEngine()
     # engine = PostgresTrgmSearchEngine()
     # engine = RedisSearchEngine()
-    engine = MeilisearchEngine()
+    # engine = MeilisearchEngine()
     # engine = SolrEngine()
     # engine = TypesenseEngine()
-    # engine = SurrealdbEngine()
+    engine = SurrealdbEngine()
+    # engine = DuckdbEngine()
 
     data = generate_data(1 * 1000 * 1000)
     print("data generated")
 
-    batch_size = 50 * 1000
+    batch_size = 100 * 1000
 
     for i in range(0, len(data), batch_size):
         batch = data[i : i + batch_size]
@@ -44,7 +46,11 @@ async def run():
         latency = (end - start) * 1000
         latencies.append(latency)
 
-    await engine.close()
+    try:
+        await engine.close()
+    except:
+        pass
+
     print(f"Found {len(result)} results")
     print(f"Took {latencies[-1]:.4f} ms")
 

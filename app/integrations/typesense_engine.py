@@ -52,8 +52,7 @@ class TypesenseEngine(SearchEngine):
 
     def ingest_data(self, data):
         print("ingesting data")
-        for doc in data:
-            self.client.collections["products"].documents.upsert(asdict(doc))
+        self.client.collections["products"].documents.import_([asdict(i) for i in data])
 
         time.sleep(5)
 

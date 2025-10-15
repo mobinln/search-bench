@@ -2,6 +2,7 @@ import random
 import json
 import os
 from faker import Faker
+from dataclasses import asdict
 
 from app.integrations.search_engine import Product
 
@@ -96,13 +97,14 @@ def generate_data(count=100):
     # If the file exists, load and return its data
     if os.path.exists(filename):
         with open(filename, "r", encoding="utf-8") as f:
-            return json.load(f)
+            json_raw = json.load(f)
+            return [Product(**i) for i in json_raw]
 
     # Otherwise, generate the data
     data = [generate_product() for _ in range(count)]
 
     # Save the generated data to a file
     with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump([asdict(i) for i in data], f, indent=2, ensure_ascii=False)
 
     return data

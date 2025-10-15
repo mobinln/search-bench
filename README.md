@@ -23,6 +23,7 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 - Apache Solr
 - Typesense
 - SurrealDB
+- Duckdb Full-Text Search
 
 ## 📊 Key Findings
 
@@ -41,9 +42,10 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 | Postgres TRGM | ~180 ms       | ~ 900 ms       | ~200 MB    | ~6000 ms     | 4/5 (You just generate indexes on the columns you need)                                                                                    |
 | Redis Search  | ~0.4 ms       | ~ 0.45 ms      | ~180 MB    | ~1.3 ms      | 4/5 (You need to generate index manually and update it based on your data)                                                                 |
 | Meilisearch   | ~4.8 ms       | ~4 ms          | ~300 MB    | ~12.5 ms     | 5/5 (To start you don't even have to create index, It generates it by first add_document :D)                                               |
-| Apache Solr   | ~3 ms         | ~3.5 ms        | ~800 MB    |              | 4/5 (Still easy but for real usage you might need zookeeper)                                                                               |
-| Typesense     | ~4 ms         | ~4 ms          | ~280 MB    |              | 4/5 (You just generate indexes on the columns you need)                                                                                    |
-| SurrealDB     | ~25 ms        | ~25 ms         | ~700 MB    |              | 3/5 (You need to write queries by hand much like postgres but some queries changed over time and you might need to read docs a little bit) |
+| Apache Solr   | ~3 ms         | ~3.5 ms        | ~800 MB    | ~3.9 ms      | 4/5 (Still easy but for real usage you might need zookeeper)                                                                               |
+| Typesense     | ~4 ms         | ~4 ms          | ~280 MB    | ~10 ms       | 4/5 (You just generate indexes on the columns you need)                                                                                    |
+| SurrealDB     | ~25 ms        | ~25 ms         | ~700 MB    | ~34 ms       | 3/5 (You need to write queries by hand much like postgres but some queries changed over time and you might need to read docs a little bit) |
+| Duckdb        | ~10.1 ms      | ~20 ms         | ~500 MB    | ~67 ms       | 4/5 (Much like postgres and sqlite but faster ingestion thanks to bulk inserts)                                                            |
 
 ## 🚀 Quick Start
 
