@@ -28,24 +28,51 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 ## 📊 Key Findings
 
 - **Fastest**: Redis Search (By far !!)
-- **Best relevance**: Redis Search or Meilisearch or Sqlite FTS5
+- **Best relevance**: Apache Solr or Meilisearch or Typesense
 - **Easiest setup**: Meilisearch
 - **Lowest resource usage**: Sqlite FTS5
 - **Best for <10k docs**: Redis Search
 - **Best for <100k docs**: Redis Search
-- **Best for >1M docs**: TBD
+- **Best for >1M docs**: Apache Solr or Meilisearch or Redis Search
 
-| Engine        | Latency (10k) | Latency (100k) | RAM (100k) | Latency (1M) | Ease of setup and use                                                                                                                      |
-| ------------- | ------------- | -------------- | ---------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Sqlite FTS5   | ~1.8 ms       | ~0.8 ms        | ~150 MB    | ~5.5 ms      | 4/5 (You should create a VIRTUAL table)                                                                                                    |
-| Postgres FTS  | ~5 ms         | ~2.7 ms        | ~180 MB    | ~27 ms       | 3/5 (You need to handle specific vector columns and indexes for performance)                                                               |
-| Postgres TRGM | ~180 ms       | ~ 900 ms       | ~200 MB    | ~6000 ms     | 4/5 (You just generate indexes on the columns you need)                                                                                    |
-| Redis Search  | ~0.4 ms       | ~ 0.45 ms      | ~180 MB    | ~1.3 ms      | 4/5 (You need to generate index manually and update it based on your data)                                                                 |
-| Meilisearch   | ~4.8 ms       | ~4 ms          | ~300 MB    | ~12.5 ms     | 5/5 (To start you don't even have to create index, It generates it by first add_document :D)                                               |
-| Apache Solr   | ~3 ms         | ~3.5 ms        | ~800 MB    | ~3.9 ms      | 4/5 (Still easy but for real usage you might need zookeeper)                                                                               |
-| Typesense     | ~4 ms         | ~4 ms          | ~280 MB    | ~10 ms       | 4/5 (You just generate indexes on the columns you need)                                                                                    |
-| SurrealDB     | ~25 ms        | ~25 ms         | ~700 MB    | ~34 ms       | 3/5 (You need to write queries by hand much like postgres but some queries changed over time and you might need to read docs a little bit) |
-| Duckdb        | ~10.1 ms      | ~20 ms         | ~500 MB    | ~67 ms       | 4/5 (Much like postgres and sqlite but faster ingestion thanks to bulk inserts)                                                            |
+| Engine        | Latency (10k) | Latency (100k) | RAM (100k) | Latency (1M) | Ease of use     |
+| ------------- | ------------- | -------------- | ---------- | ------------ | --------------- |
+| Sqlite FTS5   | ~1.8 ms       | ~0.8 ms        | ~150 MB    | ~5.5 ms      | ⭐️⭐️⭐️⭐️    |
+| Postgres FTS  | ~5 ms         | ~2.7 ms        | ~180 MB    | ~27 ms       | ⭐️⭐️⭐️       |
+| Postgres TRGM | ~180 ms       | ~ 900 ms       | ~200 MB    | ~6000 ms     | ⭐️⭐️⭐️       |
+| Redis Search  | ~0.4 ms       | ~ 0.45 ms      | ~180 MB    | ~1.3 ms      | ⭐️⭐️⭐️       |
+| Meilisearch   | ~4.8 ms       | ~4 ms          | ~300 MB    | ~12.5 ms     | ⭐️⭐️⭐️⭐️⭐️ |
+| Apache Solr   | ~3 ms         | ~3.5 ms        | ~800 MB    | ~3.9 ms      | ⭐️⭐️⭐️⭐️    |
+| Typesense     | ~4 ms         | ~4 ms          | ~280 MB    | ~10 ms       | ⭐️⭐️⭐️⭐️    |
+| SurrealDB     | ~25 ms        | ~25 ms         | ~700 MB    | ~34 ms       | ⭐️⭐️⭐️       |
+| Duckdb        | ~10.1 ms      | ~20 ms         | ~500 MB    | ~67 ms       | ⭐️⭐️⭐️       |
+
+## 📌 Features
+
+| Engine        | Typo Tolerance | Features                                                                     |
+| ------------- | -------------- | ---------------------------------------------------------------------------- |
+| Sqlite FTS5   | No             | Installed natively on python and most languages                              |
+| Postgres FTS  | No             | Easy to setup and fast enough                                                |
+| Postgres TRGM | Yes            | Typo tolerance but very slow                                                 |
+| Redis Search  | Yes            | Super fast and easy                                                          |
+| Meilisearch   | Yes            | Super easy to setup with ai search and faceted search and multi index search |
+| Apache Solr   | Yes            | Very good scalability and also very fast and consistent                      |
+| Typesense     | Yes            | Fast with good embedding search support and good docs                        |
+| SurrealDB     | Yes            | Good features set like graphs and vectors but very slow ingestion            |
+| Duckdb        | No             | Super fast data ingestion, good for analytics                                |
+
+## 🤔 Conclusion
+
+So which one should I use? well it depends, generally I don't recommend _Postgres TRGM_ because as much as I saw in my tests
+it is very slow but anyway if your stack is heavily integrated with postgres and you just want to add a search, Why not? use it it
+is robust and typo tolerant, But if you want to use a dedicated search engine (cool) I guess _Redis Search_ and _Apache Solr_ are
+the best options, _Redis Search_ is so fast that I taught it is not working :D, And it actually works the search outputs are
+actually solid, _Apache Solr_ is a very scalable and famous option which uses _Apache Lucene_ behind the scenes which is a
+fast and robust search engine powering _Elasticsearch_ and _OpenSearch_ too, So for scalability the best by far is _Apache Solr_.
+For ease of use and prototyping and even small to medium load the best option is _Meilisearch_, Easy to start, Easy to work and
+very good feature set out of the box, and finally if you need an embedded search/ filter engine to pre-process or even process data
+your best options are _Sqlite_ and _Duckdb_, They are very easy to work and use low overhead and they can ingest and process huge
+amounts of data very fast with low resource usage.
 
 ## 🚀 Quick Start
 
