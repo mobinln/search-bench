@@ -63,15 +63,15 @@ We have a `data_generator.py` script which generate multiple sample data for us 
 
 ## 🤔 Conclusion
 
-So which one should I use? well it depends, generally I don't recommend _Postgres TRGM_ because as much as I saw in my tests
+So which one should I use? well it depends, generally I don't recommend **Postgres TRGM** because as much as I saw in my tests
 it is very slow but anyway if your stack is heavily integrated with postgres and you just want to add a search, Why not? use it it
-is robust and typo tolerant, But if you want to use a dedicated search engine (cool) I guess _Redis Search_ and _Apache Solr_ are
-the best options, _Redis Search_ is so fast that I taught it is not working :D, And it actually works the search outputs are
-actually solid, _Apache Solr_ is a very scalable and famous option which uses _Apache Lucene_ behind the scenes which is a
-fast and robust search engine powering _Elasticsearch_ and _OpenSearch_ too, So for scalability the best by far is _Apache Solr_.
-For ease of use and prototyping and even small to medium load the best option is _Meilisearch_, Easy to start, Easy to work and
+is robust and typo tolerant, But if you want to use a dedicated search engine (cool) I guess **Redis Search** and **Apache Solr** are
+the best options, **Redis Search** is so fast that I taught it is not working :D, And it actually works the search outputs are
+actually solid, **Apache Solr** is a very scalable and famous option which uses **Apache Lucene** behind the scenes which is a
+fast and robust search engine powering **Elasticsearch** and **OpenSearch** too, So for scalability the best by far is **Apache Solr**.
+For ease of use and prototyping and even small to medium load the best option is **Meilisearch**, Easy to start, Easy to work and
 very good feature set out of the box, and finally if you need an embedded search/ filter engine to pre-process or even process data
-your best options are _Sqlite_ and _Duckdb_, They are very easy to work and use low overhead and they can ingest and process huge
+your best options are **Sqlite** and **Duckdb**, They are very easy to work and use low overhead and they can ingest and process huge
 amounts of data very fast with low resource usage.
 
 ## 🚀 Quick Start
