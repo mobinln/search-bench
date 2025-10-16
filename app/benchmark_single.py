@@ -2,28 +2,12 @@ import asyncio
 import time
 import plotly.express as px
 
-from app.integrations.sqlite_engine import SqliteSearchEngine
-from app.integrations.postgres_fts_engine import PostgresFtsSearchEngine
-from app.integrations.postgres_trgm_engine import PostgresTrgmSearchEngine
 from app.integrations.redis_engine import RedisSearchEngine
-from app.integrations.meilisearch_engine import MeilisearchEngine
-from app.integrations.solr_engine import SolrEngine
-from app.integrations.typesense_engine import TypesenseEngine
-from app.integrations.surrealdb_engine import SurrealdbEngine
-from app.integrations.duckdb_engine import DuckdbEngine
 from app.data_generator import generate_data, generate_query
 
 
 async def run():
-    # engine = SqliteSearchEngine()
-    # engine = PostgresFtsSearchEngine()
-    # engine = PostgresTrgmSearchEngine()
-    # engine = RedisSearchEngine()
-    # engine = MeilisearchEngine()
-    # engine = SolrEngine()
-    # engine = TypesenseEngine()
-    engine = SurrealdbEngine()
-    # engine = DuckdbEngine()
+    engine = RedisSearchEngine()
 
     data = generate_data(1 * 1000 * 1000)
     print("data generated")

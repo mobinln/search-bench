@@ -40,8 +40,8 @@ def calculate_percentile(sorted_latencies: list[float], percentile: float) -> fl
 async def run_benchmarks():
     systems: List[SearchEngine] = [
         SqliteSearchEngine,
-        # PostgresFtsSearchEngine,
-        # PostgresTrgmSearchEngine,
+        PostgresFtsSearchEngine,
+        PostgresTrgmSearchEngine,
         RedisSearchEngine,
     ]
 
